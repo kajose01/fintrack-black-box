@@ -1,0 +1,22 @@
+jenkins:
+  systemMessage: "FinTrack CI/CD"
+  numExecutors: 0                    # builds only on agents, never on the controller
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+      - {id: admin, password: "${JENKINS_ADMIN_PASSWORD}"}
+      - {id: dev,   password: "${JENKINS_DEV_PASSWORD}"}
+  authorizationStrategy:
+    globalMatrix:
+      entries:
+      - user: {name: admin, permissions: ["Overall/Administer"]}
+      - user: {name: dev,   permissions: ["Overall/Read", "Job/Read", "Job/Build"]}
+  nodes:
+  - permanent: {name: docker-agent, remoteFS: /home/jenkins/agent, labelString: docker, numExecutors: 1, launcher: inbound}
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword: {scope: GLOBAL, id: dockerhub, username: "${DOCKERHUB_USER}", password: "${DOCKERHUB_TOKEN}"}
+      - string: {scope: GLOBAL, id: slack-webhook, secret: "${SLACK_WEBHOOK}"}
