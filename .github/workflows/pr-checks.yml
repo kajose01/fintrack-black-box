@@ -1,0 +1,20 @@
+name: pr-checks
+on:
+  pull_request:
+    branches: [main, 'release/**']
+permissions: {contents: read}
+jobs:
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with: {fetch-depth: 0}
+    - run: ./scripts/secret-scan.sh --range "origin/${{ github.base_ref }}...HEAD"
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: pip install pyyaml
+    - run: python3 scripts/validate-istio.py
+    - run: for f in scripts/*.sh .githooks/*; do bash -n "$f"; done
+    - run: docker build -t fintrack/app:ci app

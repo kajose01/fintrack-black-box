@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# receives: <local ref> <local sha> <remote ref> <remote sha> on stdin
+zero=0000000000000000000000000000000000000000
+empty_tree=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+root="$(git rev-parse --show-toplevel)"
+while read -r _ local_sha _ remote_sha; do
+  [ "$local_sha" = "$zero" ] && continue
+  base="$remote_sha"; [ "$remote_sha" = "$zero" ] && base="$empty_tree"
+  "$root/scripts/secret-scan.sh" --range "$base" "$local_sha" || exit 1
+done
+exit 0
