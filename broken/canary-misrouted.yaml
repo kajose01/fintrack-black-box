@@ -1,0 +1,21 @@
+# BROKEN on purpose (reproduces "canary stuck at 100%"): VirtualService sends 100% to subset v2,
+# but the DestinationRule subset selects label version=v2-canary which no pod has -> 503 "no healthy upstream".
+# Diagnose: istioctl analyze -n fintrack; istioctl proxy-config endpoints deploy/frontend-v1.fintrack | grep account; kubectl -n fintrack get pods --show-labels
+# Fix: kubectl apply -f istio/30-routing.yaml
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata: {name: account-service, namespace: fintrack}
+spec:
+  hosts: [account-service]
+  http:
+  - route: [{destination: {host: account-service, subset: v2}, weight: 100}]
+    timeout: 3s
+---
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata: {name: account-service, namespace: fintrack}
+spec:
+  host: account-service
+  subsets:
+  - {name: v1, labels: {version: v1}}
+  - {name: v2, labels: {version: v2-canary}}

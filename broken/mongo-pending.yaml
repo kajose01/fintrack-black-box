@@ -1,0 +1,30 @@
+# BROKEN on purpose: (1) storage class does not exist -> PVC Pending, (2) REQUIRED anti-affinity with 2 replicas on a 1-node cluster -> 2nd pod Pending.
+# Diagnose: kubectl -n fintrack get pvc,sts,pods; kubectl -n fintrack describe pvc data-mongo-broken-0; kubectl describe pod mongo-broken-1
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: {name: mongo-broken, namespace: fintrack}
+spec:
+  serviceName: mongodb
+  replicas: 2
+  selector: {matchLabels: {app: mongo-broken}}
+  template:
+    metadata:
+      labels: {app: mongo-broken}
+      annotations: {sidecar.istio.io/inject: "false"}
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - topologyKey: kubernetes.io/hostname
+            labelSelector: {matchLabels: {app: mongo-broken}}
+      containers:
+      - name: mongo
+        image: mongo:7
+        resources: {requests: {cpu: 50m, memory: 128Mi}, limits: {cpu: 500m, memory: 512Mi}}
+        volumeMounts: [{name: data, mountPath: /data/db}]
+  volumeClaimTemplates:
+  - metadata: {name: data}
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: fast-ssd
+      resources: {requests: {storage: 1Gi}}

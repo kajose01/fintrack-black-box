@@ -1,0 +1,13 @@
+# Fault injection for payment-service: 40% aborts (HTTP 500) + 30% 2s delays
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata: {name: payment-service, namespace: fintrack}
+spec:
+  hosts: [payment-service]
+  http:
+  - fault:
+      abort: {percentage: {value: 40}, httpStatus: 500}
+      delay: {percentage: {value: 30}, fixedDelay: 2s}
+    route: [{destination: {host: payment-service}}]
+    timeout: 3s
+    retries: {attempts: 2, perTryTimeout: 1s, retryOn: "5xx,reset,connect-failure"}
