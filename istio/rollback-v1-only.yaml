@@ -1,0 +1,10 @@
+# "Fail open to stable": applied by scripts/rollback.sh and scripts/canary-guard.sh
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata: {name: account-service, namespace: fintrack}
+spec:
+  hosts: [account-service]
+  http:
+  - route: [{destination: {host: account-service, subset: v1}, weight: 100}]
+    timeout: 3s
+    retries: {attempts: 2, perTryTimeout: 1s, retryOn: "5xx,reset,connect-failure,refused-stream"}
