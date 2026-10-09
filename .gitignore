@@ -1,0 +1,6 @@
+.env
+*.pem
+*.log
+__pycache__/
+jenkins/.env
+istio-dl/
