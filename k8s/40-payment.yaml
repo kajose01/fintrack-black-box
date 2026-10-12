@@ -44,7 +44,7 @@ spec:
         env:
         - {name: SERVICE, value: "payment-service"}
         - {name: VERSION, value: "v1"}
-        - {name: DELAY_MS, value: "400"}
+        - {name: DELAY_MS, value: "50"}
         resources:
           requests: {cpu: 50m, memory: 64Mi}
           limits: {cpu: 250m, memory: 128Mi}

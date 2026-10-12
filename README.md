@@ -1,6 +1,6 @@
 # FinTrack: Kubernetes & Docker Black Box Challenge (Assignment #2, "Release Night Chaos")
 
-**Student:** YOUR FULL NAME
+**Student:** KANKERA JOSEPHINE
 **Assignment:** Assignment #2, Release Night Chaos: Stabilizing Hypergrowth Infra (Skillfyme DevOps Program)
 **Platform:** AWS EC2 (Ubuntu), Docker, k3s, Istio, Jenkins, GitHub Actions
 
