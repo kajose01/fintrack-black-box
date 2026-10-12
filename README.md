@@ -39,3 +39,7 @@ App entry point: `http://<EC2 public IP>:30090` (Istio ingress gateway). Jaeger:
 ## 5. Notes
 No secrets are stored in Git (`mongo-credentials` is generated on the cluster; Jenkins secrets come from an ignored `.env`).
 Istio has no "5 failures per 60 s window" primitive; the circuit breaker uses `consecutive5xxErrors: 5` with a 60 s ejection.
+
+## 6. Screenshots
+**Phase 1: CI checks and release workflow (green)**
+![GitHub Actions](docs/screenshots/Screenshot-for-project.png)
