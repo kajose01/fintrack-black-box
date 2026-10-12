@@ -61,8 +61,8 @@ pipeline {
     }
   }
   post {
-    failure { sh './scripts/rollback.sh || true'; script { notify('FAILED') } }     // rolls back to last_good_image (v1), not a guessed tag
-    aborted { sh './scripts/rollback.sh || true'; script { notify('ABORTED/TIMED OUT') } }
+    failure { sh './scripts/rollback.sh --if-deploying || true'; script { notify('FAILED') } }     // rolls back to last_good_image (v1), not a guessed tag
+    aborted { sh './scripts/rollback.sh --if-deploying || true'; script { notify('ABORTED/TIMED OUT') } }
     success { script { notify('SUCCESS') } }
     always  { sh 'docker logout || true; docker image prune -f --filter until=24h || true' }
   }
