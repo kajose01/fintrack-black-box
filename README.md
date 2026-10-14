@@ -19,7 +19,7 @@ FinTrack shipped a release at 11:59 PM with env-var feature toggles, a canary of
 Details, diagnosis commands and prevention measures: **[docs/REPORT.md](docs/REPORT.md)**.
 
 ## 3. Dependencies / setup
-- EC2 Ubuntu (recommended t3.xlarge: 4 vCPU / 16 GB, 40 GB disk), Docker + k3s (`scripts/01` from the previous assignment, or `curl -sfL https://get.k3s.io | sh -`)
+- EC2 Ubuntu (tested on t3.large: 2 vCPU / 8 GB + 4 GB swap, 40 GB disk; t3.xlarge recommended), Docker + k3s (`scripts/01` from the previous assignment, or `curl -sfL https://get.k3s.io | sh -`)
 - Istio (installed by `scripts/install-istio.sh`), `gh` CLI for branch protection (optional)
 
 ## 4. Execution steps
