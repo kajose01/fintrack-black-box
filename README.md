@@ -43,10 +43,28 @@ Istio has no "5 failures per 60 s window" primitive; the circuit breaker uses `c
 
 ## 6. Screenshots
 
-**Phase 1: CI checks and release workflow (green)**
+Full evidence document: [docs/EVIDENCE.docx](docs/EVIDENCE.docx)
 
-![GitHub Actions](docs/screenshots/Screenshot-for-project.png)
+**GitHub Actions: pr-checks and release workflows green**
+
+![GitHub Actions](docs/screenshots/00-github-actions.png)
+
+**Healthy mesh: all pods 2/2 with Istio sidecars**
+
+![Healthy mesh](docs/screenshots/01-healthy-mesh.png)
+
+**Canary 90/10 traffic split**
+
+![Canary split](docs/screenshots/02-canary-split.png)
 
 **Phase 1: bisect, revert and secret purge**
 
 ![Phase 1 simulation](docs/screenshots/03-phase1-simulation.png)
+
+**Istio STRICT mTLS enforced**
+
+![mTLS enforced](docs/screenshots/04-mtls-enforced.png)
+
+**Namespace ResourceQuota**
+
+![Namespace quota](docs/screenshots/05-namespace-quota.png)
