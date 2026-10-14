@@ -19,7 +19,7 @@ FinTrack shipped a release at 11:59 PM with env-var feature toggles, a canary of
 Details, diagnosis commands and prevention measures: **[docs/REPORT.md](docs/REPORT.md)**.
 
 ## 3. Dependencies / setup
-- EC2 Ubuntu (recommended t3.xlarge: 4 vCPU / 16 GB, 40 GB disk), Docker + k3s (`scripts/01` from the previous assignment, or `curl -sfL https://get.k3s.io | sh -`)
+- EC2 Ubuntu (tested on t3.large: 2 vCPU / 8 GB + 4 GB swap, 40 GB disk; t3.xlarge recommended), Docker + k3s (`scripts/01` from the previous assignment, or `curl -sfL https://get.k3s.io | sh -`)
 - Istio (installed by `scripts/install-istio.sh`), `gh` CLI for branch protection (optional)
 
 ## 4. Execution steps
@@ -39,3 +39,32 @@ App entry point: `http://<EC2 public IP>:30090` (Istio ingress gateway). Jaeger:
 ## 5. Notes
 No secrets are stored in Git (`mongo-credentials` is generated on the cluster; Jenkins secrets come from an ignored `.env`).
 Istio has no "5 failures per 60 s window" primitive; the circuit breaker uses `consecutive5xxErrors: 5` with a 60 s ejection.
+
+
+## 6. Screenshots
+
+Full evidence document: [docs/EVIDENCE.docx](docs/EVIDENCE.docx)
+
+**GitHub Actions: pr-checks and release workflows green**
+
+![GitHub Actions](docs/screenshots/00-github-actions.png)
+
+**Healthy mesh: all pods 2/2 with Istio sidecars**
+
+![Healthy mesh](docs/screenshots/01-healthy-mesh.png)
+
+**Canary 90/10 traffic split**
+
+![Canary split](docs/screenshots/02-canary-split.png)
+
+**Phase 1: bisect, revert and secret purge**
+
+![Phase 1 simulation](docs/screenshots/03-phase1-simulation.png)
+
+**Istio STRICT mTLS enforced**
+
+![mTLS enforced](docs/screenshots/04-mtls-enforced.png)
+
+**Namespace ResourceQuota**
+
+![Namespace quota](docs/screenshots/05-namespace-quota.png)
