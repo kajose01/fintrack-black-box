@@ -43,28 +43,31 @@ Istio has no "5 failures per 60 s window" primitive; the circuit breaker uses `c
 
 ## 6. Screenshots
 
-Full evidence document: [docs/EVIDENCE.docx](docs/EVIDENCE.docx)
+**Phase 1: CI checks and release workflow (green)**
 
-**GitHub Actions: pr-checks and release workflows green**
-
-![GitHub Actions](docs/screenshots/00-github-actions.png)
-
-**Healthy mesh: all pods 2/2 with Istio sidecars**
-
-![Healthy mesh](docs/screenshots/01-healthy-mesh.png)
-
-**Canary 90/10 traffic split**
-
-![Canary split](docs/screenshots/02-canary-split.png)
+![GitHub Actions](docs/screenshots/Screenshot-for-project.png)
 
 **Phase 1: bisect, revert and secret purge**
 
 ![Phase 1 simulation](docs/screenshots/03-phase1-simulation.png)
 
-**Istio STRICT mTLS enforced**
+**Phase 3/4: healthy mesh, all application pods 2/2 Running**
+
+![Healthy mesh](docs/screenshots/01-healthy-mesh.png)
+
+**Phase 4: 90/10 canary split, all requests 200**
+
+![Canary split](docs/screenshots/02-canary-split.png)
+
+**Phase 4: STRICT mTLS rejects a client outside the mesh**
 
 ![mTLS enforced](docs/screenshots/04-mtls-enforced.png)
 
-**Namespace ResourceQuota**
+**Phase 3: namespace resource quota**
 
 ![Namespace quota](docs/screenshots/05-namespace-quota.png)
+
+## 7. Evidence document
+
+The full written evidence for every phase is in the Word document:
+[Document Assngment 02.docx](docs/Document%20Assngment%2002.docx)
